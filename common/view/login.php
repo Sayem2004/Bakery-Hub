@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Bakery Hub</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
 
@@ -18,15 +18,15 @@
     }
     ?>
 
-    <form action="login-validation.php" method="POST">
-        <label>Email:</label>
-        <input type="email" name="email" placeholder="Email"><br>
+    <form action="../controller/login-validation.php" method="POST">
+    <label>Email:</label>
+    <input type="email" name="email" placeholder="Email"><br>
 
-        <label>Password:</label>
-        <input type="password" name="password" placeholder="Password" ><br>
+    <label>Password:</label>
+    <input type="password" name="password" placeholder="Password"><br>
 
-        <button type="submit">Login</button>
-    </form>
+    <button type="submit">Login</button>
+</form>
 
     <p>Don't have an account? <a href="register.php">Register here</a></p>
 </div>

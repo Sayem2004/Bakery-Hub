@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+$path = __DIR__."/../model/db_connect.php";
+if(!file_exists($path)){
+    die("Database File not found");
+}
+require_once $path;
+
+$db = new DatabaseConnection();
+$conn = $db->openConnection();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -6,23 +16,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = trim($_POST['password']);
 
     if (empty($email) || empty($password)) {
-        header("Location: login.php?error=All fields are required");
+        header("Location: ../view/login.php?error=All fields are required");
         exit();
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: login.php?error=Invalid email format");
+    $user = $db->loginUser($conn, "users", $email, $password);
+
+    if ($user) {
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['name'];
+        $_SESSION['user_role'] = $user['role'];
+        $_SESSION['user_email'] = $user['email'];
+
+        header("Location: ../view/dashboard.php");
+        exit();
+    } else {
+        header("Location: ../view/login.php?error=Incorrect email or password");
         exit();
     }
-
- 
-    $_SESSION['user_email'] = $email;
-
-    header("Location: dashboard.php");
-    exit();
 
 } else {
-    
-    header("Location: login.php");
+    header("Location: ../view/login.php");
     exit();
 }
+?>

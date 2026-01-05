@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration Form</title>
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="../css/register.css">
 </head>
 <body>
 
 <div class="form-container">
     <h2>Customer Registration Form</h2>
 
-    <!-- error message -->
     <?php
     if (isset($_GET['error'])) {
         echo "<p style='color:red;'>".$_GET['error']."</p>";
@@ -21,8 +20,7 @@
     }
     ?>
 
-    <form action="register-validation.php" method="POST">
-
+<form action="../controller/register-validation.php" method="POST">
         <label>Name</label><br>
         <input type="text" name="name" placeholder="Name"><br>
 
