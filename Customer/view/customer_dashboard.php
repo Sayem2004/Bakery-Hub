@@ -15,6 +15,6 @@ if (!isset($_SESSION['user_email'])) {
     <h1>Customer Dashboard</h1>
     <h1>Welcome, <?php echo $_SESSION['user_name']; ?>!</h1>
     <p>Your Role: <?php echo $_SESSION['user_role']; ?></p> <br>
-    <a href="../controller/logout.php">Logout</a>
+    <a href="../../common/controller/logout.php">Logout</a>
 </body>
 </html>
