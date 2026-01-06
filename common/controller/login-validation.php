@@ -28,8 +28,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_role'] = $user['role'];
         $_SESSION['user_email'] = $user['email'];
 
-        header("Location: ../view/dashboard.php");
+        $_SESSION['user'] = [
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'role' => $user['role'],
+            'email' => $user['email']
+        ];
+
+        
+        switch ($user['role']) {
+            case 'customer':
+                header("Location: ../../Customer/view/customer_dashboard.php");
+                break;
+
+            case 'staff':
+                header("Location: ../../Staff/view/staff_dashboard.php");
+                break;
+
+            case 'delivery':
+                header("Location: ../../Delivery/view/delivery_dashboard.php");
+                break;
+
+            default:
+                header("Location: ../view/dashboard.php");
+                break;
+        }
+        
         exit();
+
     } else {
         header("Location: ../view/login.php?error=Incorrect email or password");
         exit();
