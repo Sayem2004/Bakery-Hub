@@ -20,21 +20,23 @@
     }
     ?>
 
-<form action="../controller/register-validation.php" method="POST">
+    <p id="error-message" style="color:red;"></p>
+
+<form action="../controller/register-validation.php" method="POST" id="registerForm">
         <label>Name</label><br>
-        <input type="text" name="name" placeholder="Name"><br>
+        <input type="text" name="name" id="name" placeholder="Name"><br>
 
         <label>Phone</label><br>
-        <input type="text" name="phone" placeholder="Phone"><br>
+        <input type="text" name="phone" id="phone" placeholder="Phone"><br>
 
         <label>Email</label><br>
-        <input type="email" name="email" placeholder="Email"><br>
+        <input type="email" name="email" id="email" placeholder="Email"><br>
 
         <label>Password</label><br>
-        <input type="password" name="password" placeholder="Password"><br>
+        <input type="password" name="password" id="password" placeholder="Password"><br>
 
         <label>Role</label><br>
-        <select name="role">
+        <select name="role" id="role">
             <option value="">Select Role</option>
             <option value="customer">Customer</option>
             <option value="staff">Staff</option>
@@ -49,6 +51,8 @@
 
     </form>
 </div>
+
+<script src="../js/register-validation.js"></script>
 
 </body>
 </html>

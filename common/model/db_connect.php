@@ -5,7 +5,7 @@ class DatabaseConnection {
         $db_host = "localhost";
         $db_user = "root";
         $db_password = "";
-        $db_name = "bakery_db"; 
+        $db_name = "bakaryDB"; 
 
         $connection = new mysqli($db_host, $db_user, $db_password, $db_name);
 
@@ -18,6 +18,11 @@ class DatabaseConnection {
 
     
     function registerUser($conn, $table, $name, $phone, $email, $password, $role) {
+        $name = mysqli_real_escape_string($conn, $name);
+        $phone = mysqli_real_escape_string($conn, $phone);
+        $email = mysqli_real_escape_string($conn, $email);
+        $role = mysqli_real_escape_string($conn, $role);
+        
         $checkEmail = "SELECT * FROM $table WHERE email = '$email'";
         $result = $conn->query($checkEmail);
         
@@ -25,7 +30,9 @@ class DatabaseConnection {
             return "EmailExists"; 
         }
 
-        $sql = "INSERT INTO $table (name, phone, email, password, role) VALUES ('$name', '$phone', '$email', '$password', '$role')";
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO $table (name, phone, email, password, role) VALUES ('$name', '$phone', '$email', '$hashedPassword', '$role')";
         
         if ($conn->query($sql) === TRUE) {
             return true;
@@ -36,16 +43,17 @@ class DatabaseConnection {
 
     function loginUser($conn, $table, $email, $password) {
         $email = mysqli_real_escape_string($conn, $email);
-        $password = mysqli_real_escape_string($conn, $password);
 
-        $sql = "SELECT * FROM $table WHERE email = '$email' AND password = '$password'";
+        $sql = "SELECT * FROM $table WHERE email = '$email'";
         $result = $conn->query($sql);
 
         if ($result->num_rows == 1) {
-            return $result->fetch_assoc(); 
-        } else {
-            return false; 
+            $user = $result->fetch_assoc();
+            if (password_verify($password, $user['password'])) {
+                return $user;
+            }
         }
+        return false; 
     }
 } 
 ?>

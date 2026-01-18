@@ -10,8 +10,8 @@
     <h1>Bakery Management System</h1>
     <nav>
         <a href="index.php">About</a>
-        <a href="./Common/View/login.php">Login</a>
-        <a href="./Common/View/register.php">Register</a>
+        <a href="./common/View/login.php">Login</a>
+        <a href="./common/View/register.php">Register</a>
     </nav>
 </header>
 

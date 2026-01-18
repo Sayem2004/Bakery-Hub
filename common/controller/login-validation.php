@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 $path = __DIR__."/../model/db_connect.php";
@@ -10,14 +11,21 @@ require_once $path;
 $db = new DatabaseConnection();
 $conn = $db->openConnection();
 
+$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
 
     if (empty($email) || empty($password)) {
-        header("Location: ../view/login.php?error=All fields are required");
-        exit();
+        if ($isAjax) {
+            echo json_encode(['success' => false, 'message' => 'All fields are required']);
+            exit();
+        } else {
+            header("Location: ../view/login.php?error=All fields are required");
+            exit();
+        }
     }
 
     $user = $db->loginUser($conn, "users", $email, $password);
@@ -35,30 +43,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'email' => $user['email']
         ];
 
-        
         switch ($user['role']) {
             case 'customer':
-                header("Location: ../../Customer/view/customer_dashboard.php");
+                $redirect = '../../Customer/view/customer_dashboard.php';
                 break;
-
             case 'staff':
-                header("Location: ../../Staff/view/staff_dashboard.php");
+                $redirect = '../../Staff/view/staff_dashboard.php';
                 break;
-
             case 'delivery':
-                header("Location: ../../Delivery/view/delivery_dashboard.php");
+                $redirect = '../../Delivery/view/delivery_dashboard.php';
                 break;
-
             default:
-                header("Location: ../view/dashboard.php");
+                $redirect = '../view/dashboard.php';
                 break;
         }
         
-        exit();
+        if ($isAjax) {
+            echo json_encode(['success' => true, 'message' => 'Login successful', 'redirect' => $redirect]);
+            exit();
+        } else {
+            header("Location: " . $redirect);
+            exit();
+        }
 
     } else {
-        header("Location: ../view/login.php?error=Incorrect email or password");
-        exit();
+        if ($isAjax) {
+            echo json_encode(['success' => false, 'message' => 'Incorrect email or password']);
+            exit();
+        } else {
+            header("Location: ../view/login.php?error=Incorrect email or password");
+            exit();
+        }
     }
 
 } else {
