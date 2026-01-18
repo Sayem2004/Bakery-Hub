@@ -44,7 +44,7 @@ class DatabaseConnection {
         if ($result->num_rows == 1) {
             return $result->fetch_assoc(); 
         } else {
-            return false; // ইউজার পাওয়া যায়নি
+            return false; 
         }
     }
 } 
