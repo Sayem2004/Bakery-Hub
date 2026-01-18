@@ -1,24 +1,21 @@
 <?php
-/*
- * STAFF DASHBOARD - PRODUCTS
- * Page to add, edit, and delete products
- */
+
 
 session_start();
 
-// Check if user is logged in as staff
+
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'staff') {
     header("Location: ../../common/view/login.php");
     exit;
 }
 
-// Include database functions
+
 require_once('../model/product_model.php');
 
-// Get all products
+
 $products = getAllProducts();
 
-// Check if editing a product
+
 $editProduct = null;
 if (isset($_GET['edit'])) {
     $editProduct = getProductById($_GET['edit']);
@@ -34,7 +31,7 @@ if (isset($_GET['edit'])) {
 
 <div class="dashboard">
     
-    <!-- SIDEBAR - Navigation Menu -->
+    
     <div class="sidebar">
         <h2>Staff Panel</h2>
         <p>Welcome, <?php echo htmlspecialchars($_SESSION['user']['name']); ?></p>
@@ -44,21 +41,21 @@ if (isset($_GET['edit'])) {
         <a href="../../common/controller/logout.php">Logout</a>
     </div>
     
-    <!-- MAIN CONTENT -->
+   
     <div class="content">
         
-        <!-- Show success message -->
+       
         <?php if (isset($_SESSION['success'])): ?>
             <p class="msg-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
         <?php endif; ?>
         
-        <!-- Show error message -->
+        
         <?php if (isset($_SESSION['error'])): ?>
             <p class="msg-error"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
         <?php endif; ?>
         
         
-        <!-- ADD / EDIT PRODUCT FORM -->
+        
         <div class="card">
             <h2><?php if ($editProduct) { echo 'Edit Product'; } else { echo 'Add New Product'; } ?></h2>
             
@@ -98,7 +95,7 @@ if (isset($_GET['edit'])) {
         </div>
         
         
-        <!-- PRODUCTS TABLE -->
+        
         <h2>All Products</h2>
         
         <table>

@@ -1,21 +1,18 @@
 <?php
-/*
- * STAFF ORDERS PAGE
- * Page to view and manage customer orders
- */
+
 
 session_start();
 
-// Check if user is logged in as staff
+
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'staff') {
     header("Location: ../../common/view/login.php");
     exit;
 }
 
-// Include database functions
+
 require_once('../model/order_model.php');
 
-// Get all pending orders
+
 $orders = getAllPendingOrders();
 ?>
 <!DOCTYPE html>
@@ -28,7 +25,7 @@ $orders = getAllPendingOrders();
 
 <div class="dashboard">
     
-    <!-- SIDEBAR - Navigation Menu -->
+    
     <div class="sidebar">
         <h2>Staff Panel</h2>
         <p>Welcome, <?php echo htmlspecialchars($_SESSION['user']['name']); ?></p>
@@ -38,21 +35,21 @@ $orders = getAllPendingOrders();
         <a href="../../common/controller/logout.php">Logout</a>
     </div>
     
-    <!-- MAIN CONTENT -->
+    
     <div class="content">
         
-        <!-- Show success message -->
+       
         <?php if (isset($_SESSION['success'])): ?>
             <p class="msg-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
         <?php endif; ?>
         
-        <!-- Show error message -->
+       
         <?php if (isset($_SESSION['error'])): ?>
             <p class="msg-error"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
         <?php endif; ?>
         
         
-        <!-- ORDERS TABLE -->
+        
         <h2>Customer Orders</h2>
         
         <table>
